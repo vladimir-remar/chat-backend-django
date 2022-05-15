@@ -6,6 +6,11 @@ import sys
 
 def main():
     """Run administrative tasks."""
+    # Add path to this folder to python path
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+    # Path to project apps
+    sys.path.append(os.path.dirname(os.path.abspath(__file__)) + "/apps")
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chat.settings')
     try:
         from django.core.management import execute_from_command_line
