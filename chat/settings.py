@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'channels',
 
     # apps
-    'core'
+    'core',
+    'user_profile'
 ]
 
 MIDDLEWARE = [
