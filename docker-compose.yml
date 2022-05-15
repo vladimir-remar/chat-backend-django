@@ -1,0 +1,31 @@
+version: '3'
+
+services: 
+  web: 
+    build: . 
+    image: app 
+    command: sh -c "python manage.py makemigrations &&
+                    python manage.py migrate &&
+                    python manage.py runserver 0.0.0.0:${APP_PORT}" 
+    volumes: 
+      - .:/microservice 
+    ports: 
+      - ${APP_PORT}:${APP_PORT} 
+    depends_on:
+      - db
+    env_file: config/.env
+    restart: "on-failure"
+
+  db: 
+    image: ubuntu/postgres:12-20.04_beta
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment: 
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    env_file: config/.env
+    restart: "on-failure"
+
+volumes:
+  postgres_data:
