@@ -119,7 +119,7 @@ fabric.properties
 
 # project files should be checked into the repository, unless a significant
 # proportion of contributors will probably not be using SublimeText
-# *.sublime-project
+*.sublime-project
 
 # sftp configuration file
 sftp-config.json
@@ -154,7 +154,6 @@ Temporary Items
 
 *.pyc
 *.sqlite3
-clothing_warehouse/logs/
 static/
 dumps/
 .idea/
@@ -172,9 +171,6 @@ config/git/hooks/*
 terraform.tfstate
 terraform.tfstate.backup
 terraform-modules/
-
-#Exceptions
-!clothing_warehouse/lib
 
 # configurations
 config/*.env

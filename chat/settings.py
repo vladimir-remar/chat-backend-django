@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     # Other packges
     'channels',
+    'rest_framework',
 
     # apps
     'core',
@@ -73,7 +74,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'chat.wsgi.application'
-ASGI_APPLICATION = 'chat.asgi.application'
+# ASGI_APPLICATION = 'chat.asgi.application'
 
 
 # Database
@@ -124,7 +125,19 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+# Collect static files here
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'run', 'static_root')
+
+# Collect media files here
+MEDIA_ROOT = os.path.join(PROJECT_ROOT, 'run', 'media_root')
+MEDIA_URL = '/media/'
+
+# look for static assets here
+STATICFILES_DIRS = [
+    os.path.join(PROJECT_ROOT, 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -136,3 +149,28 @@ ROOT_URLCONF = 'chat.urls'
 ENVIRONMENT = os.environ.get('ENVIRONMENT', '')
 ENVIRONMENT_COLOR_MAIN = os.environ.get('ENVIRONMENT_COLOR_MAIN')
 ENVIRONMENT_COLOR_SECONDARY = os.environ.get('ENVIRONMENT_COLOR_SECONDARY')
+
+# Routing
+ASGI_APPLICATION = 'chat.routing.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [("redis://:1234@redis:6379/0")],
+        },
+    },
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
+}
+
+MESSAGES_TO_LOAD = 15
+
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/login/'
